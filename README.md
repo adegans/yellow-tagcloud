@@ -6,10 +6,19 @@ Add a tag cloud to the main blog page with tags from all child pages (posts)
 
 The Blog extension is required for the tagcloud to work.
 
+Generates a tag of up-to 40 words with font sizes between 12 and 34px:
 ```
-[tagcloud] (This generates a tag of up-to 40 words with font sizes between 12 and 34px)
-[tagcloud 35] (This generates a tag of up-to 35 words)
-[tagcloud 50 10 40] (This generates a tag of up-to 50 words with font sizes between 10 and 40px)
+[tagcloud]
+```
+
+Generate a cloud of up-to 35 words:
+```
+[tagcloud 35]
+```
+
+Generates a cloud of up-to 50 words with font sizes between 10 and 40px:
+```
+[tagcloud 50 10 40]
 ```
 
 ## How to install an extension
