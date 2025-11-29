@@ -1,28 +1,20 @@
 <?php
-/*
- Tagcloud extension
-
- Add a tag cloud to the main blog page with tags from all child pages (posts)
-
- Usage: [tagcloud] (This generates a tag of up-to 40 words with font sizes between 12 and 34px)
- 		[tagcloud 35] (This generates a tag of up-to 35 words)
- 		[tagcloud 50 10 40] (This generates a tag of up-to 50 words with font sizes between 10 and 40px)
-*/
+// Tagcloud extension, https://github.com/adegans/yellow-tagcloud
 
 class YellowTagCloud {
-    const VERSION = "1.0";
-    public $yellow; // access to API
-    
-    // Handle initialisation
-    public function onLoad($yellow) {
-        $this->yellow = $yellow;
-    }
-    
-    // Handle page content element
-    public function onParseContentElement($page, $name, $text, $attributes, $type) {
-        $output = "";
+	const VERSION = "1.0.1";
+	public $yellow; // access to API
 
-        if($name == "tagcloud" && ($type=="block" || $type=="inline")) {
+	// Handle initialisation
+	public function onLoad($yellow) {
+		$this->yellow = $yellow;
+	}
+
+	// Handle page content element
+	public function onParseContentElement($page, $name, $text, $attributes, $type) {
+		$output = "";
+
+		if($name == "tagcloud" && ($type=="block" || $type=="inline")) {
 			if($this->yellow->extension->isExisting("blog")) {
 				$blog_home = $this->yellow->system->get("blogStartLocation");
 
@@ -47,35 +39,36 @@ class YellowTagCloud {
 							$tag = trim($tag);
 							if(!array_key_exists($tag, $tags)) {
 								$tags[$tag] = 1;
-							} else { 
+							} else {
 								$tags[$tag] = $tags[$tag]+1;
 							}
 						}
 					}
 				}
-				
+
 				$max_qty = max(array_values($tags));
 				$min_qty = min(array_values($tags));
 				$spread = $max_qty - $min_qty;
 				if($spread == 0) $spread = 1;
 				$step = ($maximum_font - $minimum_font)/($spread);
-				
+
+				// Sort, strip and sort the array
 				arsort($tags, SORT_NUMERIC);
 				$tags = array_slice($tags, 0, $maximum_tags, true);
 				ksort($tags, SORT_STRING);
 
 				$output = "<div class=\"tag-cloud ".htmlspecialchars($name)."\">\n";
 				foreach($tags as $tag => $count) {
-				    $size = $minimum_font + (($count - $min_qty) * $step);
-				    $size = round($size, 2);
-				    $output .= " <a class=\"tag-cloud-link\" href=\"".$page->getLocation(true).$this->yellow->lookup->normaliseArguments("tag:$tag")."\" style=\"font-size:". $size ."px;\">".$tag."</a> ";
+					$size = $minimum_font + (($count - $min_qty) * $step);
+					$size = round($size, 2);
+					$output .= " <a class=\"tag-cloud-link\" href=\"".$page->getLocation(true).$this->yellow->lookup->normaliseArguments("tag:$tag")."\" style=\"font-size:". $size ."px;\">".$tag."</a> ";
 				}
 				$output .= "</div>\n";
-	        } else {
+			} else {
 				$output = "<p style=\"color:#F00;\">Error: Blog extension is not installed!</p>";
-	        }
-	    }
-        return $output;
-    }
+			}
+		}
+		return $output;
+	}
 }
 ?>

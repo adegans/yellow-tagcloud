@@ -21,6 +21,16 @@ Generates a cloud of up-to 50 words with font sizes between 10 and 40px:
 [tagcloud 50 10 40]
 ```
 
+## Customization
+Apply CSS to `div.tag-cloud` and `div.tag-cloud a` or `div.tag-cloud a.tag-cloud-link` to customize the fonts style and colors.
+Do not change the font-size with CSS.
+
+## Changelog:
+
+1.0.1 - 2025-11-28
+* Updated - indentation
+* Fix - File header comment
+
 ## How to install an extension
 
 [Download ZIP file](https://github.com/adegans/yellow-tagcloud/archive/refs/heads/main.zip) and copy it into your `system/extensions` folder. [Learn more about extensions](https://github.com/annaesvensson/yellow-update).
